@@ -16,55 +16,56 @@ from tqdm import *
 ##################################################
 
 
-# cap = cv2.VideoCapture('vid.mp4')
-# fps = round(cap.get(cv2.CAP_PROP_FPS))
+cap = cv2.VideoCapture('vid.mkv')
+fps = round(cap.get(cv2.CAP_PROP_FPS))
 
-# cf = 0
+cf = 0
 
-# with tqdm(total = 2983) as pbar:
+with tqdm(total = 2983) as pbar:
     
-#     while True:
+    while True:
         
-#         ret,frame = cap.read()
+        ret,frame = cap.read()
         
-#         if ret:
+        if ret:
             
-#             name = '.\\frames\\'+str(cf)+'.png'
-#             cv2.imwrite(name,frame)
-#             cf+=1
-#             pbar.update(1)
-#         else:
-#             break
+            name = '.\\frames\\'+str(cf)+'.png'
+            cv2.imwrite(name,frame)
+            cf+=1
+            pbar.update(1)
+        else:
+            break
 
-# cap.release()
-frames = []
-#################################################
-for i in trange(2983):
-    name = '.\\frames\\'+str(i)+'.png'
-    img = Image.open(name)
-    nimg = np.array(img)
-    img.close()
-    
-    nimg = nimg[:530,:,:]
-    scale = 10
-    newimg = np.zeros((5*scale,10*scale,3)).astype(int)
-    
-    y,x = nimg.shape[0]//5,nimg.shape[1]//10
-    
-    for i in range(5):
-        for j in range(10):
-            newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,0] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,2].mean())
-            newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,1] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,1].mean())
-            newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,2] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,0].mean())
-    # frames.append(Image.fromarray(np.uint8(newimg)))
-    frames.append(np.uint8(newimg))
+cap.release()
 
-video = cv2.VideoWriter('compvid.mkv',cv2.VideoWriter.fourcc(*'mp4v'),24,(10*scale,5*scale))
-
-for frame in frames:
-    video.write(frame)
+# frames = []
+# #################################################
+# for i in trange(2983):
+#     name = '.\\frames\\'+str(i)+'.png'
+#     img = Image.open(name)
+#     nimg = np.array(img)
+#     img.close()
     
-video.release()
+#     nimg = nimg[:530,:,:]
+#     scale = 10
+#     newimg = np.zeros((5*scale,10*scale,3)).astype(int)
+    
+#     y,x = nimg.shape[0]//5,nimg.shape[1]//10
+    
+#     for i in range(5):
+#         for j in range(10):
+#             newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,0] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,2].mean())
+#             newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,1] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,1].mean())
+#             newimg[scale*i:scale*i+scale,scale*j:scale*j+scale,2] = int(nimg[i*y:(i+1)*y,j*x:(j+1)*x,0].mean())
+#     # frames.append(Image.fromarray(np.uint8(newimg)))
+#     frames.append(np.uint8(newimg))
+
+# video = cv2.VideoWriter('compvid.mkv',cv2.VideoWriter.fourcc(*'mp4v'),24,(10*scale,5*scale))
+
+# for frame in frames:
+#     video.write(frame)
+    
+# video.release()
 
 ##################################################
 # minas = Image.open('mt.png','r')
